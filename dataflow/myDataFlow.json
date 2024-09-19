@@ -95,6 +95,7 @@
 				"          EstimatedSalary as string,",
 				"          Exited as string",
 				"     ),",
+				"     truncate: true,",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> sink1"
 			]
