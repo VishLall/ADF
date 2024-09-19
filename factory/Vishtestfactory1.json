@@ -1,0 +1,9 @@
+{
+	"name": "Vishtestfactory1",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "fd18e747-483b-4b25-af69-33b5d4ff96f9",
+		"tenantId": "18b98a16-b10a-4ee8-b15e-51dd5bc555f7"
+	}
+}
