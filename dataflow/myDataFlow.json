@@ -1,0 +1,99 @@
+{
+	"name": "myDataFlow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText1",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText1",
+						"type": "DatasetReference"
+					},
+					"name": "sink1",
+					"rejectedDataLinkedService": {
+						"referenceName": "AzureBlobStorage1",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [
+				{
+					"name": "cast1"
+				},
+				{
+					"name": "select1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          CustomerId as string,",
+				"          Surname as string,",
+				"          CreditScore as string,",
+				"          Geography as string,",
+				"          Gender as string,",
+				"          Age as string,",
+				"          Tenure as string,",
+				"          Balance as string,",
+				"          NumOfProducts as string,",
+				"          HasCrCard as string,",
+				"          IsActiveMember as string,",
+				"          EstimatedSalary as string,",
+				"          Exited as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"select1 cast(output(",
+				"          Balance as float '000.##',",
+				"          EstimatedSalary as float '000.##'",
+				"     ),",
+				"     errors: true) ~> cast1",
+				"source1 select(mapColumn(",
+				"          UserID = CustomerId,",
+				"          LastName = Surname,",
+				"          CreditScore,",
+				"          Location = Geography,",
+				"          Gender,",
+				"          Age,",
+				"          Tenure,",
+				"          Balance,",
+				"          NumOfProducts,",
+				"          HasCrCard,",
+				"          IsActiveMember,",
+				"          EstimatedSalary,",
+				"          Exited",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"cast1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          CustomerId as string,",
+				"          Surname as string,",
+				"          CreditScore as string,",
+				"          Geography as string,",
+				"          Gender as string,",
+				"          Age as string,",
+				"          Tenure as string,",
+				"          Balance as string,",
+				"          NumOfProducts as string,",
+				"          HasCrCard as string,",
+				"          IsActiveMember as string,",
+				"          EstimatedSalary as string,",
+				"          Exited as string",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}
